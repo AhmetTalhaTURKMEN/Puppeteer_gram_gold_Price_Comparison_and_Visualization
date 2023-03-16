@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GRAM ALTIN</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div style=" width: 95%;">
+        <canvas id="myChart"></canvas>
+    </div>
+    <script>
+
+        fetch('data.json')
+            .then(response => response.json())
+            .then(veri => {
+                // Verileri saklamak için boş dizi oluşturun
+                var labels = [];
+                var yapikredialis = [];
+                var yapikredisatis = [];
+                var ziraatalis = [];
+                var ziraatsatis = [];
+
+                // JSON verisini diziye dönüştürün
+                for (var i = 0; i < veri.length; i++) {
+                    labels.push(veri[i][0].Tarih + " " + veri[i][0].zaman);
+                    yapikredialis.push(veri[i][0].yapikredialis);
+                    yapikredisatis.push(veri[i][0].yapikredisatis);
+                    ziraatalis.push(veri[i][0].ziraatalis);
+                    ziraatsatis.push(veri[i][0].ziraatsatis);
+                }
+
+                // Çizgi grafiği oluşturun
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'YapiKredi Alis',
+                            data: yapikredialis,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderWidth: 1
+                        }, {
+                            label: 'YapiKredi Satis',
+                            data: yapikredisatis,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderWidth: 1
+                        }, {
+                            label: 'Ziraat Alis',
+                            data: ziraatalis,
+                            borderColor: 'rgba(255, 206, 86, 1)',
+                            backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                            borderWidth: 1
+                        }, {
+                            label: 'Ziraat Satis',
+                            data: ziraatsatis,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            });
+    </script>
