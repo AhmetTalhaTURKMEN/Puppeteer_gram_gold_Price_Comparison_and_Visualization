@@ -8,3 +8,6 @@
 
 ### 3. 
 <Code> npm install </Code>
+
+### 4. 
+<Code> node index.js </Code>
